@@ -7,7 +7,8 @@ import {
   Store, Route, Users, ShieldQuestion, ThumbsUp, ThumbsDown, PlayCircle, ChevronLeft,
   BadgeCheck, MapPinned, CalendarDays, Scale, Percent, Gauge, ArrowUpRight, ArrowDownRight,
   Menu, Mic, MicOff, Camera, ImagePlus, QrCode, ScanLine, Link2, Lock, Hash, ShieldAlert,
-  Fingerprint, MessageCircle, Send, Volume2, VolumeX, Bot, Navigation, LocateFixed, RadioTower, WifiOff, Wifi, Smartphone
+  Fingerprint, MessageCircle, Send, Volume2, VolumeX, Bot, Navigation, LocateFixed, RadioTower, WifiOff, Wifi, Smartphone,
+  ShoppingBasket, Home, BadgePercent
 } from "lucide-react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -33,6 +34,8 @@ const C = {
   slateLight: "#E7EBE6",
   danger: "#C0442F",
   dangerLight: "#F6E1DC",
+  plum: "#7B3FA0",
+  plumLight: "#F0E3F7",
   gold: "#B8860B",
   white: "#FFFFFF",
   line: "#E1E5DD",
@@ -67,19 +70,22 @@ const TRANSLATIONS = {
     benefit4_t: "Reduced wastage", benefit4_d: "Faster, matched fulfilment shortens the farm-to-kitchen window.",
     benefit5_t: "Optimized transportation", benefit5_d: "Delivery requests are auto-generated and routed to nearby transporters.",
     benefit6_t: "Transparent transactions", benefit6_d: "Every order carries a visible price breakdown, end to end.",
-    how_eyebrow: "How it works", how_title: "Four roles, one connected workflow",
+    how_eyebrow: "How it works", how_title: "Five roles, one connected workflow",
     role_farmer_d: "Lists produce with quantity, price and grade.", role_admin_d: "Verifies quality and keeps the network trusted.",
     role_restaurant_d: "Discovers, compares and orders direct from farms.", role_transporter_d: "Accepts delivery jobs and moves produce fast.",
+    role_consumer_d: "Orders farm-fresh vegetables for home — any amount from 1 kg to 100 kg.",
     cta_title: "Ready to see it in action?", cta_desc: "Try the full demo flow — from listing to payment — in under five minutes.",
     footer_note: "FarmConnect — SIH 2026 Prototype. All statistics illustrative unless noted.",
     role_select_title: "Continue to FarmConnect", role_select_desc: "This is a demo — pick a role below, no signup required.",
     back_home: "Back to home",
-    role_farmer: "Farmer", role_restaurant: "Restaurant", role_transporter: "Transporter", role_admin: "Admin",
+    role_farmer: "Farmer", role_restaurant: "Restaurant", role_transporter: "Transporter", role_admin: "Admin", role_consumer: "Consumer",
     role_farmer_short: "List produce, track orders, get paid.", role_restaurant_short: "Discover verified produce, order direct.",
     role_transporter_short: "Accept deliveries, track earnings.", role_admin_short: "Verify quality, monitor the network.",
+    role_consumer_short: "Order 1–100 kg of farm-fresh vegetables to your home.",
     continue_as: "Continue as",
     "nav_f-dashboard": "Dashboard", "nav_f-produce": "My Produce", "nav_f-orders": "Orders", "nav_f-quality": "Quality", "nav_f-notifications": "Notifications", "nav_f-profile": "Profile",
     "nav_r-dashboard": "Dashboard", "nav_r-marketplace": "Marketplace", "nav_r-orders": "Orders", "nav_r-matching": "Smart Matching", "nav_r-forecast": "Demand Forecast", "nav_r-pricebreakdown": "Price Breakdown", "nav_r-notifications": "Notifications", "nav_r-profile": "Profile",
+    "nav_c-dashboard": "Dashboard", "nav_c-marketplace": "Vegetable Market", "nav_c-orders": "My Orders", "nav_c-notifications": "Notifications", "nav_c-profile": "Profile",
     "nav_t-dashboard": "Dashboard", "nav_t-deliveries": "Deliveries", "nav_t-tracking": "Tracking", "nav_t-notifications": "Notifications", "nav_t-profile": "Profile",
     "nav_a-dashboard": "Dashboard", "nav_a-verification": "Verification", "nav_a-mandi": "Mandi Prices", "nav_a-analytics": "Analytics", "nav_a-notifications": "Notifications",
     "nav_f-mandi": "Mandi Prices",
@@ -99,6 +105,22 @@ const TRANSLATIONS = {
     r_dash_title: "Dashboard",
     stat_today_procurement: "Today's Procurement", stat_pending_orders: "Pending Orders", stat_monthly_spending: "Monthly Spending", stat_avg_delivery: "Avg. Delivery Time", stat_procurement_saved: "Procurement Saved",
     fresh_marketplace: "Fresh Produce Marketplace", btn_browse_marketplace: "Browse Marketplace",
+    /* ---- Consumer (home-buyer) dashboard ---- */
+    c_banner_badge: "New · Farm-to-Home",
+    c_banner_title: "Farm-fresh vegetables, delivered to your door",
+    c_banner_desc: "The same direct-from-farm supply chain restaurants use — now sized for your home. Order any quantity from 1 kg to 100 kg.",
+    btn_start_shopping: "Start Shopping", btn_order_now: "Order Now",
+    stat_c_active_orders: "Active Orders", stat_c_total_orders: "Total Orders", stat_c_total_spent: "Total Spent",
+    stat_c_kg_bought: "Vegetables Bought", stat_c_saved: "Saved vs Retail",
+    c_quick_picks: "Today's Fresh Picks", c_quick_picks_d: "Admin-verified produce available right now — tap a card to order your requirement.",
+    c_recent_orders: "Your Recent Orders", c_how_much: "You choose the quantity — 1 kg to 100 kg per order",
+    c_marketplace_eyebrow: "Farm-to-Home Market", c_marketplace_title: "Vegetables Direct From Farms",
+    c_marketplace_desc: "Every listing is admin-verified for quality. Order exactly what you need — from 1 kg up to 100 kg.",
+    c_order_form_desc: "Tell us how much you need — anything between 1 kg and 100 kg. Delivery cost is calculated automatically.",
+    c_qty_field: "Quantity you need (kg) — min 1 kg", c_qty_max_note: "Per-order limit is 100 kg, capped by what the farm currently has available.",
+    c_delivery_fee: "Home delivery", c_retail_price: "Typical retail price", c_you_save: "You save vs retail",
+    c_free_delivery_note: "Free home delivery on produce cost above ₹499",
+    c_quick_qty_label: "Quick select (kg)", c_deliver_to: "Deliver To",
     marketplace_eyebrow: "Marketplace", marketplace_title: "Fresh Produce, Direct From Farms", marketplace_desc: "Every listing shown here is admin-verified for quality.",
     search_placeholder: "Search tomatoes, onions, potatoes...", filter_all_grades: "All Grades",
     sort_price_asc: "Price: Low to High", sort_price_desc: "Price: High to Low", sort_quality: "Quality Score", sort_fresh: "Freshest First",
@@ -136,7 +158,7 @@ const TRANSLATIONS = {
     whatsapp_example_text: "50 kg tomato, grade A, 30 rupees per kg, harvest tomorrow",
     btn_mark_picked_up: "Mark Picked Up", btn_mark_in_transit: "Mark In Transit", btn_mark_delivered: "Mark Delivered", label_earnings_colon: "Earnings", label_complete: "Complete",
     a_dash_eyebrow: "Network overview", a_dash_title: "Admin Dashboard", a_dash_desc: "Live view of the FarmConnect network. Figures marked demo are illustrative.",
-    stat_total_farmers: "Total Farmers", stat_total_restaurants: "Total Restaurants", stat_total_transporters: "Total Transporters", stat_active_orders2: "Active Orders",
+    stat_total_farmers: "Total Farmers", stat_total_restaurants: "Total Restaurants", stat_total_transporters: "Total Transporters", stat_total_consumers: "Total Consumers", stat_active_orders2: "Active Orders",
     stat_completed_orders: "Completed Orders", stat_produce_traded: "Produce Traded", stat_farmer_earnings: "Farmer Earnings", stat_restaurant_savings: "Restaurant Savings",
     pending_verification: "Pending Quality Verification", btn_go_to_verification: "Go to Verification", nothing_pending: "Nothing pending — all listings verified.",
     btn_place_order: "Place Order", btn_view_details: "View Details", btn_confirm_order: "Confirm Order", btn_verify: "Verify", btn_verify_now: "Verify Now",
@@ -204,19 +226,22 @@ const TRANSLATIONS = {
     benefit4_t: "कम बर्बादी", benefit4_d: "तेज़, मिलान की गई आपूर्ति खेत-से-रसोई की अवधि को छोटा करती है।",
     benefit5_t: "अनुकूलित परिवहन", benefit5_d: "डिलीवरी अनुरोध स्वतः बनते हैं और नज़दीकी ट्रांसपोर्टरों को भेजे जाते हैं।",
     benefit6_t: "पारदर्शी लेन-देन", benefit6_d: "हर ऑर्डर में शुरू से अंत तक स्पष्ट मूल्य विवरण होता है।",
-    how_eyebrow: "यह कैसे काम करता है", how_title: "चार भूमिकाएँ, एक जुड़ा हुआ वर्कफ़्लो",
+    how_eyebrow: "यह कैसे काम करता है", how_title: "पाँच भूमिकाएँ, एक जुड़ा हुआ वर्कफ़्लो",
     role_farmer_d: "मात्रा, कीमत और ग्रेड के साथ उपज सूचीबद्ध करता है।", role_admin_d: "गुणवत्ता सत्यापित करता है और नेटवर्क को भरोसेमंद बनाए रखता है।",
     role_restaurant_d: "फार्मों से सीधे खोजता है, तुलना करता है और ऑर्डर करता है।", role_transporter_d: "डिलीवरी कार्य स्वीकार करता है और उपज तेज़ी से पहुँचाता है।",
+    role_consumer_d: "घर के लिए 1 किलो से 100 किलो तक ताज़ी सब्ज़ियाँ ऑर्डर करता है।",
     cta_title: "इसे काम करते देखने के लिए तैयार हैं?", cta_desc: "पूरा डेमो फ़्लो आज़माएँ — लिस्टिंग से भुगतान तक — पाँच मिनट से कम में।",
     footer_note: "फार्मकनेक्ट — SIH 2026 प्रोटोटाइप। जब तक न बताया जाए, सभी आँकड़े उदाहरणात्मक हैं।",
     role_select_title: "फार्मकनेक्ट में जारी रखें", role_select_desc: "यह एक डेमो है — नीचे से एक भूमिका चुनें, साइनअप की आवश्यकता नहीं।",
     back_home: "होम पर वापस जाएँ",
-    role_farmer: "किसान", role_restaurant: "रेस्तरां", role_transporter: "ट्रांसपोर्टर", role_admin: "एडमिन",
+    role_farmer: "किसान", role_restaurant: "रेस्तरां", role_transporter: "ट्रांसपोर्टर", role_admin: "एडमिन", role_consumer: "उपभोक्ता",
     role_farmer_short: "उपज सूचीबद्ध करें, ऑर्डर ट्रैक करें, भुगतान पाएँ।", role_restaurant_short: "सत्यापित उपज खोजें, सीधे ऑर्डर करें।",
     role_transporter_short: "डिलीवरी स्वीकार करें, कमाई ट्रैक करें।", role_admin_short: "गुणवत्ता सत्यापित करें, नेटवर्क की निगरानी करें।",
+    role_consumer_short: "अपने घर के लिए 1–100 किलो फार्म-फ्रेश सब्ज़ियाँ ऑर्डर करें।",
     continue_as: "इस रूप में जारी रखें",
     "nav_f-dashboard": "डैशबोर्ड", "nav_f-produce": "मेरी उपज", "nav_f-orders": "ऑर्डर", "nav_f-quality": "गुणवत्ता", "nav_f-notifications": "सूचनाएँ", "nav_f-profile": "प्रोफ़ाइल",
     "nav_r-dashboard": "डैशबोर्ड", "nav_r-marketplace": "मार्केटप्लेस", "nav_r-orders": "ऑर्डर", "nav_r-matching": "स्मार्ट मैचिंग", "nav_r-forecast": "मांग पूर्वानुमान", "nav_r-pricebreakdown": "मूल्य विवरण", "nav_r-notifications": "सूचनाएँ", "nav_r-profile": "प्रोफ़ाइल",
+    "nav_c-dashboard": "डैशबोर्ड", "nav_c-marketplace": "सब्ज़ी मंडी", "nav_c-orders": "मेरे ऑर्डर", "nav_c-notifications": "सूचनाएँ", "nav_c-profile": "प्रोफ़ाइल",
     "nav_t-dashboard": "डैशबोर्ड", "nav_t-deliveries": "डिलीवरी", "nav_t-tracking": "ट्रैकिंग", "nav_t-notifications": "सूचनाएँ", "nav_t-profile": "प्रोफ़ाइल",
     "nav_a-dashboard": "डैशबोर्ड", "nav_a-verification": "सत्यापन", "nav_a-mandi": "मंडी भाव", "nav_a-analytics": "एनालिटिक्स", "nav_a-notifications": "सूचनाएँ",
     "nav_f-mandi": "मंडी भाव",
@@ -236,6 +261,21 @@ const TRANSLATIONS = {
     r_dash_title: "डैशबोर्ड",
     stat_today_procurement: "आज की खरीद", stat_pending_orders: "लंबित ऑर्डर", stat_monthly_spending: "मासिक खर्च", stat_avg_delivery: "औसत डिलीवरी समय", stat_procurement_saved: "बचाई गई खरीद लागत",
     fresh_marketplace: "ताज़ी उपज मार्केटप्लेस", btn_browse_marketplace: "मार्केटप्लेस ब्राउज़ करें",
+    c_banner_badge: "नया · खेत से घर तक",
+    c_banner_title: "खेत की ताज़ा सब्ज़ियाँ, सीधे आपके दरवाज़े तक",
+    c_banner_desc: "वही सीधे-खेत से सप्लाई चेन जो रेस्तरां उपयोग करते हैं — अब आपके घर के हिसाब से। 1 किलो से 100 किलो तक कोई भी मात्रा ऑर्डर करें।",
+    btn_start_shopping: "खरीदारी शुरू करें", btn_order_now: "अभी ऑर्डर करें",
+    stat_c_active_orders: "सक्रिय ऑर्डर", stat_c_total_orders: "कुल ऑर्डर", stat_c_total_spent: "कुल खर्च",
+    stat_c_kg_bought: "खरीदी गई सब्ज़ियाँ", stat_c_saved: "रिटेल की तुलना में बचत",
+    c_quick_picks: "आज की ताज़ा सब्ज़ियाँ", c_quick_picks_d: "सत्यापित उपज अभी उपलब्ध है — अपनी ज़रूरत के लिए कार्ड चुनें।",
+    c_recent_orders: "आपके हाल के ऑर्डर", c_how_much: "मात्रा आप चुनें — प्रति ऑर्डर 1 किलो से 100 किलो तक",
+    c_marketplace_eyebrow: "खेत से घर मंडी", c_marketplace_title: "सीधे खेतों से सब्ज़ियाँ",
+    c_marketplace_desc: "हर लिस्टिंग गुणवत्ता के लिए सत्यापित है। जितनी ज़रूरत हो उतना ऑर्डर करें — 1 किलो से 100 किलो तक।",
+    c_order_form_desc: "बताइए आपको कितना चाहिए — 1 किलो से 100 किलो तक। डिलीवरी लागत अपने आप निकाली जाएगी।",
+    c_qty_field: "आवश्यक मात्रा (किग्रा) — न्यूनतम 1 किलो", c_qty_max_note: "प्रति ऑर्डर सीमा 100 किलो है, खेत की उपलब्ध मात्रा के अनुसार।",
+    c_delivery_fee: "होम डिलीवरी", c_retail_price: "आम रिटेल कीमत", c_you_save: "रिटेल की तुलना में आपकी बचत",
+    c_free_delivery_note: "₹499 से अधिक की उपज पर मुफ़्त होम डिलीवरी",
+    c_quick_qty_label: "तुरंत चुनें (किग्रा)", c_deliver_to: "डिलीवरी पता",
     marketplace_eyebrow: "मार्केटप्लेस", marketplace_title: "ताज़ी उपज, सीधे खेतों से", marketplace_desc: "यहाँ दिखाई गई हर लिस्टिंग गुणवत्ता के लिए एडमिन-सत्यापित है।",
     search_placeholder: "टमाटर, प्याज़, आलू खोजें...", filter_all_grades: "सभी ग्रेड",
     sort_price_asc: "कीमत: कम से ज़्यादा", sort_price_desc: "कीमत: ज़्यादा से कम", sort_quality: "गुणवत्ता स्कोर", sort_fresh: "सबसे ताज़ा पहले",
@@ -273,7 +313,7 @@ const TRANSLATIONS = {
     whatsapp_example_text: "50 किलो टमाटर, ग्रेड ए, 30 रुपये प्रति किलो, कल कटाई",
     btn_mark_picked_up: "उठाया गया चिह्नित करें", btn_mark_in_transit: "मार्ग में चिह्नित करें", btn_mark_delivered: "डिलीवर हुआ चिह्नित करें", label_earnings_colon: "कमाई", label_complete: "पूर्ण",
     a_dash_eyebrow: "नेटवर्क अवलोकन", a_dash_title: "एडमिन डैशबोर्ड", a_dash_desc: "फार्मकनेक्ट नेटवर्क का लाइव दृश्य। 'डेमो' चिह्नित आँकड़े उदाहरणात्मक हैं।",
-    stat_total_farmers: "कुल किसान", stat_total_restaurants: "कुल रेस्तरां", stat_total_transporters: "कुल ट्रांसपोर्टर", stat_active_orders2: "सक्रिय ऑर्डर",
+    stat_total_farmers: "कुल किसान", stat_total_restaurants: "कुल रेस्तरां", stat_total_transporters: "कुल ट्रांसपोर्टर", stat_total_consumers: "कुल उपभोक्ता", stat_active_orders2: "सक्रिय ऑर्डर",
     stat_completed_orders: "पूर्ण ऑर्डर", stat_produce_traded: "व्यापारित उपज", stat_farmer_earnings: "किसान की कमाई", stat_restaurant_savings: "रेस्तरां की बचत",
     pending_verification: "लंबित गुणवत्ता सत्यापन", btn_go_to_verification: "सत्यापन पर जाएँ", nothing_pending: "कुछ भी लंबित नहीं — सभी लिस्टिंग सत्यापित।",
     btn_place_order: "ऑर्डर करें", btn_view_details: "विवरण देखें", btn_confirm_order: "ऑर्डर की पुष्टि करें", btn_verify: "सत्यापित करें", btn_verify_now: "अभी सत्यापित करें",
@@ -341,19 +381,22 @@ const TRANSLATIONS = {
     benefit4_t: "తగ్గిన వృథా", benefit4_d: "వేగవంతమైన, సరిపోల్చిన సరఫరా పొలం-నుండి-వంటగది వ్యవధిని తగ్గిస్తుంది.",
     benefit5_t: "ఆప్టిమైజ్డ్ రవాణా", benefit5_d: "డెలివరీ అభ్యర్థనలు స్వయంచాలకంగా సృష్టించబడి సమీప రవాణాదారులకు పంపబడతాయి.",
     benefit6_t: "పారదర్శక లావాదేవీలు", benefit6_d: "ప్రతి ఆర్డర్‌కు మొదటి నుండి చివరి వరకు స్పష్టమైన ధర వివరణ ఉంటుంది.",
-    how_eyebrow: "ఇది ఎలా పనిచేస్తుంది", how_title: "నాలుగు పాత్రలు, ఒకే అనుసంధాన వర్క్‌ఫ్లో",
+    how_eyebrow: "ఇది ఎలా పనిచేస్తుంది", how_title: "ఐదు పాత్రలు, ఒకే అనుసంధాన వర్క్‌ఫ్లో",
     role_farmer_d: "పరిమాణం, ధర మరియు గ్రేడ్‌తో ఉత్పత్తిని లిస్ట్ చేస్తారు.", role_admin_d: "నాణ్యతను ధృవీకరించి నెట్‌వర్క్‌ను నమ్మదగినదిగా ఉంచుతారు.",
     role_restaurant_d: "పొలాల నుండి నేరుగా వెతికి, పోల్చి, ఆర్డర్ చేస్తారు.", role_transporter_d: "డెలివరీ పనులను స్వీకరించి ఉత్పత్తులను వేగంగా చేరవేస్తారు.",
+    role_consumer_d: "ఇంటి కోసం 1 కిలో నుండి 100 కిలోల వరకు తాజా కూరగాయలను ఆర్డర్ చేస్తారు.",
     cta_title: "దీన్ని పనిచేస్తూ చూడటానికి సిద్ధంగా ఉన్నారా?", cta_desc: "పూర్తి డెమో ఫ్లోను ప్రయత్నించండి — లిస్టింగ్ నుండి చెల్లింపు వరకు — ఐదు నిమిషాల్లోపు.",
     footer_note: "ఫార్మ్‌కనెక్ట్ — SIH 2026 ప్రోటోటైప్. సూచించనంత వరకు అన్ని గణాంకాలు ఉదాహరణ మాత్రమే.",
     role_select_title: "ఫార్మ్‌కనెక్ట్‌లో కొనసాగండి", role_select_desc: "ఇది ఒక డెమో — దిగువ నుండి ఒక పాత్రను ఎంచుకోండి, సైన్అప్ అవసరం లేదు.",
     back_home: "హోమ్‌కు తిరిగి వెళ్ళండి",
-    role_farmer: "రైతు", role_restaurant: "రెస్టారెంట్", role_transporter: "రవాణాదారు", role_admin: "అడ్మిన్",
+    role_farmer: "రైతు", role_restaurant: "రెస్టారెంట్", role_transporter: "రవాణాదారు", role_admin: "అడ్మిన్", role_consumer: "వినియోగదారు",
     role_farmer_short: "ఉత్పత్తిని లిస్ట్ చేయండి, ఆర్డర్లను ట్రాక్ చేయండి, చెల్లింపు పొందండి.", role_restaurant_short: "ధృవీకరించిన ఉత్పత్తిని కనుగొనండి, నేరుగా ఆర్డర్ చేయండి.",
     role_transporter_short: "డెలివరీలను స్వీకరించండి, సంపాదనను ట్రాక్ చేయండి.", role_admin_short: "నాణ్యతను ధృవీకరించండి, నెట్‌వర్క్‌ను పర్యవేక్షించండి.",
+    role_consumer_short: "మీ ఇంటి కోసం 1–100 కిలోల వ్యవసాయ-తాజా కూరగాయలు ఆర్డర్ చేయండి.",
     continue_as: "ఇలా కొనసాగించండి",
     "nav_f-dashboard": "డాష్‌బోర్డ్", "nav_f-produce": "నా ఉత్పత్తులు", "nav_f-orders": "ఆర్డర్లు", "nav_f-quality": "నాణ్యత", "nav_f-notifications": "నోటిఫికేషన్లు", "nav_f-profile": "ప్రొఫైల్",
     "nav_r-dashboard": "డాష్‌బోర్డ్", "nav_r-marketplace": "మార్కెట్‌ప్లేస్", "nav_r-orders": "ఆర్డర్లు", "nav_r-matching": "స్మార్ట్ మ్యాచింగ్", "nav_r-forecast": "డిమాండ్ అంచనా", "nav_r-pricebreakdown": "ధర వివరణ", "nav_r-notifications": "నోటిఫికేషన్లు", "nav_r-profile": "ప్రొఫైల్",
+    "nav_c-dashboard": "డాష్‌బోర్డ్", "nav_c-marketplace": "కూరగాయల మార్కెట్", "nav_c-orders": "నా ఆర్డర్లు", "nav_c-notifications": "నోటిఫికేషన్లు", "nav_c-profile": "ప్రొఫైల్",
     "nav_t-dashboard": "డాష్‌బోర్డ్", "nav_t-deliveries": "డెలివరీలు", "nav_t-tracking": "ట్రాకింగ్", "nav_t-notifications": "నోటిఫికేషన్లు", "nav_t-profile": "ప్రొఫైల్",
     "nav_a-dashboard": "డాష్‌బోర్డ్", "nav_a-verification": "ధృవీకరణ", "nav_a-mandi": "మండి ధరలు", "nav_a-analytics": "అనలిటిక్స్", "nav_a-notifications": "నోటిఫికేషన్లు",
     "nav_f-mandi": "మండి ధరలు",
@@ -373,6 +416,21 @@ const TRANSLATIONS = {
     r_dash_title: "డాష్‌బోర్డ్",
     stat_today_procurement: "నేటి కొనుగోలు", stat_pending_orders: "పెండింగ్ ఆర్డర్లు", stat_monthly_spending: "నెలవారీ ఖర్చు", stat_avg_delivery: "సగటు డెలివరీ సమయం", stat_procurement_saved: "ఆదా చేసిన కొనుగోలు వ్యయం",
     fresh_marketplace: "తాజా ఉత్పత్తుల మార్కెట్‌ప్లేస్", btn_browse_marketplace: "మార్కెట్‌ప్లేస్ బ్రౌజ్ చేయండి",
+    c_banner_badge: "కొత్తది · పొలం నుండి ఇంటికి",
+    c_banner_title: "పొలం తాజా కూరగాయలు, మీ ఇంటి తలుపు వద్దకు",
+    c_banner_desc: "రెస్టారెంట్లు ఉపయోగించే అదే నేరుగా-పొలం సరఫరా గొలుసు — ఇప్పుడు మీ ఇంటి కోసం. 1 కిలో నుండి 100 కిలోల వరకు ఏ పరిమాణమైనా ఆర్డర్ చేయండి.",
+    btn_start_shopping: "షాపింగ్ ప్రారంభించండి", btn_order_now: "ఇప్పుడే ఆర్డర్ చేయండి",
+    stat_c_active_orders: "క్రియాశీల ఆర్డర్లు", stat_c_total_orders: "మొత్తం ఆర్డర్లు", stat_c_total_spent: "మొత్తం ఖర్చు",
+    stat_c_kg_bought: "కొన్న కూరగాయలు", stat_c_saved: "రిటైల్ కంటే పొదుపు",
+    c_quick_picks: "నేటి తాజా కూరగాయలు", c_quick_picks_d: "ధృవీకరించిన ఉత్పత్తి ఇప్పుడు అందుబాటులో ఉంది — మీ అవసరానికి కార్డును ఎంచుకోండి.",
+    c_recent_orders: "మీ ఇటీవలి ఆర్డర్లు", c_how_much: "పరిమాణం మీరే ఎంచుకోండి — ఆర్డర్‌కు 1 కిలో నుండి 100 కిలోల వరకు",
+    c_marketplace_eyebrow: "పొలం నుండి ఇంటికి మార్కెట్", c_marketplace_title: "నేరుగా పొలాల నుండి కూరగాయలు",
+    c_marketplace_desc: "ప్రతి లిస్టింగ్ నాణ్యత కోసం ధృవీకరించబడింది. మీకు కావలసినంత ఆర్డర్ చేయండి — 1 కిలో నుండి 100 కిలోల వరకు.",
+    c_order_form_desc: "మీకు ఎంత కావాలో చెప్పండి — 1 కిలో నుండి 100 కిలోల వరకు. డెలివరీ ఖర్చు ఆటోమేటిక్‌గా లెక్కించబడుతుంది.",
+    c_qty_field: "మీకు కావలసిన పరిమాణం (కిలో) — కనీసం 1 కిలో", c_qty_max_note: "ఆర్డర్‌కు గరిష్ఠ పరిమితి 100 కిలోలు, పొలంలో లభ్యతను బట్టి.",
+    c_delivery_fee: "హోమ్ డెలివరీ", c_retail_price: "సాధారణ రిటైల్ ధర", c_you_save: "రిటైల్ కంటే మీ పొదుపు",
+    c_free_delivery_note: "₹499 పైబడిన ఉత్పత్తి విలుపై ఉచిత హోమ్ డెలివరీ",
+    c_quick_qty_label: "త్వరిత ఎంపిక (కిలో)", c_deliver_to: "డెలివరీ చిరునామా",
     marketplace_eyebrow: "మార్కెట్‌ప్లేస్", marketplace_title: "తాజా ఉత్పత్తులు, నేరుగా పొలాల నుండి", marketplace_desc: "ఇక్కడ చూపిన ప్రతి లిస్టింగ్ నాణ్యత కోసం అడ్మిన్-ధృవీకరించబడింది.",
     search_placeholder: "టమాటో, ఉల్లిపాయ, బంగాళదుంప వెతకండి...", filter_all_grades: "అన్ని గ్రేడ్‌లు",
     sort_price_asc: "ధర: తక్కువ నుండి ఎక్కువ", sort_price_desc: "ధర: ఎక్కువ నుండి తక్కువ", sort_quality: "నాణ్యత స్కోరు", sort_fresh: "అత్యంత తాజావి మొదట",
@@ -410,7 +468,7 @@ const TRANSLATIONS = {
     whatsapp_example_text: "50 కిలోల టమాటా, గ్రేడ్ ఏ, కిలోకు 30 రూపాయలు, రేపు కోత",
     btn_mark_picked_up: "తీసుకున్నట్లు గుర్తించండి", btn_mark_in_transit: "రవాణాలో ఉన్నట్లు గుర్తించండి", btn_mark_delivered: "డెలివరీ అయినట్లు గుర్తించండి", label_earnings_colon: "సంపాదన", label_complete: "పూర్తయింది",
     a_dash_eyebrow: "నెట్‌వర్క్ అవలోకనం", a_dash_title: "అడ్మిన్ డాష్‌బోర్డ్", a_dash_desc: "ఫార్మ్‌కనెక్ట్ నెట్‌వర్క్ యొక్క ప్రత్యక్ష వీక్షణ. 'డెమో' అని గుర్తించిన గణాంకాలు ఉదాహరణ మాత్రమే.",
-    stat_total_farmers: "మొత్తం రైతులు", stat_total_restaurants: "మొత్తం రెస్టారెంట్లు", stat_total_transporters: "మొత్తం రవాణాదారులు", stat_active_orders2: "క్రియాశీల ఆర్డర్లు",
+    stat_total_farmers: "మొత్తం రైతులు", stat_total_restaurants: "మొత్తం రెస్టారెంట్లు", stat_total_transporters: "మొత్తం రవాణాదారులు", stat_total_consumers: "మొత్తం వినియోగదారులు", stat_active_orders2: "క్రియాశీల ఆర్డర్లు",
     stat_completed_orders: "పూర్తయిన ఆర్డర్లు", stat_produce_traded: "వర్తకం చేసిన ఉత్పత్తి", stat_farmer_earnings: "రైతు సంపాదన", stat_restaurant_savings: "రెస్టారెంట్ ఆదా",
     pending_verification: "పెండింగ్ నాణ్యత ధృవీకరణ", btn_go_to_verification: "ధృవీకరణకు వెళ్ళండి", nothing_pending: "పెండింగ్‌లో ఏమీ లేదు — అన్ని లిస్టింగ్‌లు ధృవీకరించబడ్డాయి.",
     btn_place_order: "ఆర్డర్ చేయండి", btn_view_details: "వివరాలు చూడండి", btn_confirm_order: "ఆర్డర్‌ను నిర్ధారించండి", btn_verify: "ధృవీకరించండి", btn_verify_now: "ఇప్పుడే ధృవీకరించండి",
@@ -614,6 +672,15 @@ const RESTAURANTS = [
   { id: "r10", name: "Farm Fresh Bistro", location: "HITEC City" },
 ];
 
+const CONSUMERS = [
+  { id: "u1", name: "Priya Verma", location: "Kukatpally", phone: "9848022001" },
+  { id: "u2", name: "Arjun Rao", location: "Madhapur", phone: "9848022002" },
+  { id: "u3", name: "Sneha Gupta", location: "Secunderabad", phone: "9848022003" },
+  { id: "u4", name: "Vikram Nair", location: "Gachibowli", phone: "9848022004" },
+  { id: "u5", name: "Divya Iyer", location: "LB Nagar", phone: "9848022005" },
+  { id: "u6", name: "Rahul Mehta", location: "Ameerpet", phone: "9848022006" },
+];
+
 const TRANSPORTERS = [
   { id: "t1", name: "Rajesh Logistics", vehicle: "Tata Ace", rating: 4.6, location: "Medchal" },
   { id: "t2", name: "Suresh Transport", vehicle: "Bolero Pickup", rating: 4.4, location: "Uppal" },
@@ -722,6 +789,18 @@ function transportEstimate(qty, distanceKm) {
 }
 function platformFeeFor(produceCost) {
   return Math.max(100, Math.round(produceCost * 0.02));
+}
+
+/* Consumer (home-buyer) pricing: orders are 1–100 kg, so fees are tuned for
+   small doorstep deliveries rather than full-truck restaurant drops. Home
+   delivery is free once the produce cost crosses ₹499. */
+const CONSUMER_FREE_DELIVERY_ABOVE = 499;
+function consumerDeliveryFee(qty, distanceKm, produceCost) {
+  if (produceCost > CONSUMER_FREE_DELIVERY_ABOVE) return 0;
+  return Math.round(29 + qty * 0.6 + distanceKm * 1.1);
+}
+function consumerPlatformFee(produceCost) {
+  return Math.max(9, Math.round(produceCost * 0.02));
 }
 
 function seedOrder(id, cropId, restaurantId, qty, status, daysAgo) {
@@ -1128,11 +1207,12 @@ const Landing = ({ goRoleSelect, goMarketplacePreview, lang, setLang }) => {
         <div className="max-w-7xl mx-auto px-5 sm:px-10">
           <p className="text-xs uppercase tracking-widest font-bold mb-2" style={{ color: C.marigold }}>{t(lang, "how_eyebrow")}</p>
           <h2 className="ff-display font-bold text-2xl text-white mb-8">{t(lang, "how_title")}</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               { icon: Sprout, role: t(lang, "role_farmer"), desc: t(lang, "role_farmer_d") },
               { icon: ShieldCheck, role: t(lang, "role_admin"), desc: t(lang, "role_admin_d") },
               { icon: UtensilsCrossed, role: t(lang, "role_restaurant"), desc: t(lang, "role_restaurant_d") },
+              { icon: ShoppingBasket, role: t(lang, "role_consumer"), desc: t(lang, "role_consumer_d") },
               { icon: Truck, role: t(lang, "role_transporter"), desc: t(lang, "role_transporter_d") },
             ].map((r, i) => (
               <div key={i} className="rounded-2xl p-5" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
@@ -1164,6 +1244,7 @@ const RoleSelect = ({ onSelect, onBack, lang, setLang }) => {
   const roles = [
     { key: "farmer", icon: "🌾", title: t(lang, "role_farmer"), desc: t(lang, "role_farmer_short"), tint: C.leafLight },
     { key: "restaurant", icon: "🍽️", title: t(lang, "role_restaurant"), desc: t(lang, "role_restaurant_short"), tint: C.marigoldLight },
+    { key: "consumer", icon: "🛒", title: t(lang, "role_consumer"), desc: t(lang, "role_consumer_short"), tint: C.plumLight },
     { key: "transporter", icon: "🚚", title: t(lang, "role_transporter"), desc: t(lang, "role_transporter_short"), tint: C.skyLight },
     { key: "admin", icon: "🛡️", title: t(lang, "role_admin"), desc: t(lang, "role_admin_short"), tint: C.slateLight },
   ];
@@ -1221,6 +1302,13 @@ const NAV = {
     { key: "r-notifications", label: "Notifications", icon: Bell },
     { key: "r-profile", label: "Profile", icon: User },
   ],
+  consumer: [
+    { key: "c-dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { key: "c-marketplace", label: "Vegetable Market", icon: ShoppingBasket },
+    { key: "c-orders", label: "My Orders", icon: ClipboardList },
+    { key: "c-notifications", label: "Notifications", icon: Bell },
+    { key: "c-profile", label: "Profile", icon: User },
+  ],
   transporter: [
     { key: "t-dashboard", label: "Dashboard", icon: LayoutDashboard },
     { key: "t-deliveries", label: "Deliveries", icon: Truck },
@@ -1241,6 +1329,7 @@ const NAV = {
 const ROLE_META = {
   farmer: { title: "Farmer", icon: Sprout, color: C.forestMid },
   restaurant: { title: "Restaurant", icon: UtensilsCrossed, color: C.marigoldDark },
+  consumer: { title: "Consumer", icon: ShoppingBasket, color: C.plum },
   transporter: { title: "Transporter", icon: Truck, color: C.sky },
   admin: { title: "Admin", icon: ShieldCheck, color: C.slate },
 };
@@ -1321,6 +1410,7 @@ export default function App() {
   const meFarmer = FARMERS[0];
   const meRestaurant = RESTAURANTS[0];
   const meTransporter = TRANSPORTERS[0];
+  const meConsumer = CONSUMERS[0];
 
   const notify = (targetRole, text, icon) => {
     const iconName = ICON_TO_NAME.get(icon) || "Bell";
@@ -1406,6 +1496,45 @@ export default function App() {
     return id;
   };
 
+  /* Consumer (home-buyer) orders: same supply chain as restaurant orders, but
+     sized 1–100 kg with doorstep-delivery pricing instead of truck pricing. */
+  const createConsumerOrder = (crop, form) => {
+    const farmer = FARMERS.find((f) => f.id === crop.farmerId);
+    const qty = Math.min(100, Math.max(1, Number(form.quantity)));
+    const produceCost = qty * crop.price;
+    const transportCost = consumerDeliveryFee(qty, farmer.distanceKm, produceCost);
+    const platformFee = consumerPlatformFee(produceCost);
+    const total = produceCost + transportCost + platformFee;
+    const id = "FC" + orderCounter;
+    setOrderCounter((n) => n + 1);
+
+    const nearest = autoAssignEnabled ? findNearestTransporter(farmer.location, transporterLocations, autoAssignRadius) : null;
+    const now = new Date().toISOString();
+    const timeline = [{ label: STATUS_LABEL.PLACED, done: true, at: now }];
+    if (nearest) timeline.push({ label: STATUS_LABEL.TRANSPORTER_ASSIGNED, done: true, at: now });
+
+    const order = {
+      id, cropId: crop.id, restaurantId: null, buyerType: "consumer", consumerId: meConsumer.id, farmerId: crop.farmerId, qty,
+      deliveryLocation: form.deliveryLocation, deliveryDate: form.deliveryDate, deliveryTime: form.deliveryTime,
+      pricePerKg: crop.price, produceCost, transportCost, platformFee, total,
+      status: nearest ? "TRANSPORTER_ASSIGNED" : "PLACED", transporterId: nearest ? nearest.transporterId : null,
+      timeline, createdDaysAgo: 0,
+    };
+    setOrders((prev) => [order, ...prev]);
+    setCrops((prev) => prev.map((c) => (c.id === crop.id ? { ...c, available: Math.max(0, c.available - qty) } : c)));
+    notify("farmer", `New order ${id}: ${qty}kg ${crop.name} from ${meConsumer.name} (Consumer).`, ClipboardList);
+
+    if (nearest) {
+      const trName = TRANSPORTERS.find((t) => t.id === nearest.transporterId)?.name;
+      const distText = `${nearest.distance.toFixed(1)}km`;
+      notify("admin", `Consumer order ${id} auto-assigned to ${trName} (${distText} away).`, Truck);
+      notify("transporter", `Consumer order ${id} auto-assigned to you — pickup is ${distText} from your location.`, Truck);
+    } else {
+      notify("admin", `Consumer order ${id} placed — no transporter found within ${autoAssignRadius}km, needs manual assignment.`, Truck);
+    }
+    return id;
+  };
+
   const advanceOrder = (id, nextStatus, transporterId) => {
     setOrders((prev) =>
       prev.map((o) => {
@@ -1418,10 +1547,12 @@ export default function App() {
     );
     const o = orders.find((x) => x.id === id);
     if (o) {
-      if (nextStatus === "TRANSPORTER_ASSIGNED") { notify("restaurant", `Order ${id}: transporter assigned.`, Truck); notify("farmer", `Order ${id}: transporter assigned for pickup.`, Truck); }
-      if (nextStatus === "PICKED_UP") notify("restaurant", `Order ${id}: produce picked up from farm.`, PackageCheck);
-      if (nextStatus === "IN_TRANSIT") notify("restaurant", `Order ${id}: shipment in transit.`, Truck);
-      if (nextStatus === "DELIVERED") { notify("restaurant", `Order ${id}: delivered.`, PackageCheck); notify("farmer", `Order ${id}: delivered to restaurant.`, PackageCheck); }
+      const buyerRole = o.buyerType === "consumer" ? "consumer" : "restaurant";
+      const buyerLabel = o.buyerType === "consumer" ? "consumer" : "restaurant";
+      if (nextStatus === "TRANSPORTER_ASSIGNED") { notify(buyerRole, `Order ${id}: transporter assigned.`, Truck); notify("farmer", `Order ${id}: transporter assigned for pickup.`, Truck); }
+      if (nextStatus === "PICKED_UP") notify(buyerRole, `Order ${id}: produce picked up from farm.`, PackageCheck);
+      if (nextStatus === "IN_TRANSIT") notify(buyerRole, `Order ${id}: shipment in transit.`, Truck);
+      if (nextStatus === "DELIVERED") { notify(buyerRole, `Order ${id}: delivered.`, PackageCheck); notify("farmer", `Order ${id}: delivered to ${buyerLabel}.`, PackageCheck); }
       if (nextStatus === "PAID") { notify("farmer", `Payment received for order ${id}.`, Wallet); notify("transporter", `Transport payment released for order ${id}.`, Wallet); }
     }
   };
@@ -1518,6 +1649,7 @@ export default function App() {
   const farmerCrops = useMemo(() => crops.filter((c) => c.farmerId === meFarmer.id), [crops]);
   const farmerOrders = useMemo(() => orders.filter((o) => farmerCrops.some((c) => c.id === o.cropId)), [orders, farmerCrops]);
   const restaurantOrders = useMemo(() => orders.filter((o) => o.restaurantId === meRestaurant.id), [orders]);
+  const consumerOrders = useMemo(() => orders.filter((o) => o.buyerType === "consumer" && o.consumerId === meConsumer.id), [orders]);
   const transporterOrders = useMemo(() => orders.filter((o) => o.transporterId === meTransporter.id), [orders]);
   const availableRequests = useMemo(() => orders.filter((o) => o.status === "PLACED"), [orders]);
   const pendingCrops = useMemo(() => crops.filter((c) => !c.verified), [crops]);
@@ -1526,6 +1658,8 @@ export default function App() {
   const farmerById = (id) => FARMERS.find((f) => f.id === id);
   const restaurantById = (id) => RESTAURANTS.find((r) => r.id === id);
   const transporterById = (id) => TRANSPORTERS.find((t) => t.id === id);
+  const consumerById = (id) => CONSUMERS.find((u) => u.id === id);
+  const buyerOfOrder = (o) => (o && o.buyerType === "consumer" ? consumerById(o.consumerId) : restaurantById(o?.restaurantId));
 
   if (screen === "landing") return (<><FontStyles /><Landing goRoleSelect={() => setScreen("roleSelect")} goMarketplacePreview={() => { setRole("restaurant"); setScreen("app"); setPage("r-marketplace"); }} lang={lang} setLang={setLang} /></>);
   if (screen === "roleSelect") return (<><FontStyles /><RoleSelect onSelect={goApp} onBack={() => setScreen("landing")} lang={lang} setLang={setLang} /></>);
@@ -1697,6 +1831,88 @@ export default function App() {
       case "r-profile":
         return <ProfilePage lang={lang} name={meRestaurant.name} sub={meRestaurant.location} roleTitle={t(lang, "role_restaurant")} extra={[["Orders placed", restaurantOrders.length], ["Total spent", fmt(restaurantOrders.reduce((s, o) => s + o.total, 0))]]} />;
 
+      /* ===== CONSUMER (farm-to-home, 1–100 kg) ===== */
+      case "c-dashboard": {
+        const activeCount = consumerOrders.filter((o) => o.status !== "PAID").length;
+        const totalSpent = consumerOrders.reduce((s, o) => s + o.total, 0);
+        const kgBought = consumerOrders.reduce((s, o) => s + o.qty, 0);
+        const savedVsRetail = consumerOrders.reduce((s, o) => s + Math.max(0, Math.round(o.pricePerKg * 1.75) * o.qty - o.total), 0);
+        return (
+          <div>
+            <div className="rounded-3xl p-6 sm:p-7 mb-8 flex flex-col lg:flex-row lg:items-center gap-5 lg:justify-between" style={{ background: `linear-gradient(120deg, ${C.plum} 0%, #5B2E78 100%)` }}>
+              <div>
+                <Badge bg="rgba(255,255,255,0.18)" fg="#fff" icon={Home}>{t(lang, "c_banner_badge")}</Badge>
+                <h2 className="ff-display font-bold text-xl sm:text-2xl text-white mt-3">{t(lang, "c_banner_title")}</h2>
+                <p className="text-sm mt-1 max-w-xl" style={{ color: "#E8D9F2" }}>{t(lang, "c_banner_desc")}</p>
+              </div>
+              <div className="flex flex-col gap-2 shrink-0">
+                <Button variant="marigold" icon={ShoppingBasket} onClick={() => setPage("c-marketplace")}>{t(lang, "btn_start_shopping")}</Button>
+                <p className="text-2xs text-center font-semibold" style={{ color: "#E8D9F2" }}>{t(lang, "c_how_much")}</p>
+              </div>
+            </div>
+            <SectionTitle eyebrow={t(lang, "f_dash_welcome")} title={`${meConsumer.name}'s Dashboard`} desc={`${meConsumer.location} · FarmConnect ${t(lang, "role_consumer")}`} />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+              <StatCard label={t(lang, "stat_c_active_orders")} value={activeCount} icon={ClipboardList} tint={C.plumLight} />
+              <StatCard label={t(lang, "stat_c_total_orders")} value={consumerOrders.length} icon={Package} />
+              <StatCard label={t(lang, "stat_c_total_spent")} value={fmt(totalSpent)} icon={Wallet} tint={C.marigoldLight} />
+              <StatCard label={t(lang, "stat_c_kg_bought")} value={kgBought + " kg"} icon={ShoppingBasket} tint={C.leafLight} />
+              <StatCard label={t(lang, "stat_c_saved")} value={fmt(savedVsRetail)} icon={TrendingDown} tint={C.leafLight} sub={t(lang, "demo_estimate")} />
+            </div>
+            <SectionTitle title={t(lang, "c_quick_picks")} desc={t(lang, "c_quick_picks_d")} right={<Button variant="outline" icon={ShoppingBasket} onClick={() => setPage("c-marketplace")}>{t(lang, "btn_view_all")}</Button>} />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              {crops.filter((c) => c.verified && c.available > 0).slice(0, 3).map((c) => <CropCard key={c.id} crop={c} farmer={farmerById(c.farmerId)} lang={lang} onView={(cr) => { setSelectedCropId(cr.id); setPage("c-product"); }} />)}
+            </div>
+            {consumerOrders.length > 0 && (
+              <>
+                <SectionTitle title={t(lang, "c_recent_orders")} right={<Button variant="outline" onClick={() => setPage("c-orders")}>{t(lang, "btn_view_all")}</Button>} />
+                <OrdersTable lang={lang} rows={consumerOrders.slice(0, 3)} cropById={cropById} farmerById={farmerById} showFarmer onTrack={(id) => { setSelectedOrderId(id); setPage("order-tracking"); }} onPay={(id) => { setSelectedOrderId(id); setPage("payment"); }} />
+              </>
+            )}
+          </div>
+        );
+      }
+      case "c-marketplace":
+        return <Marketplace key={"cmkt-" + assistantSearchNonce} initialQuery={assistantSearchQuery} eyebrow={t(lang, "c_marketplace_eyebrow")} title={t(lang, "c_marketplace_title")} desc={t(lang, "c_marketplace_desc")} crops={crops} farmerById={farmerById} lang={lang} onView={(c) => { setSelectedCropId(c.id); setPage("c-product"); }} />;
+      case "c-product": {
+        const crop = cropById(selectedCropId) || crops[0];
+        return (
+          <ProductDetail
+            crop={crop}
+            farmer={farmerById(crop.farmerId)}
+            lang={lang}
+            savingLabelKey="c_you_save"
+            onBack={() => setPage("c-marketplace")}
+            onOrder={() => { setSelectedCropId(crop.id); setPage("c-order-create"); }}
+          />
+        );
+      }
+      case "c-order-create": {
+        const crop = cropById(selectedCropId) || crops[0];
+        return (
+          <ConsumerOrderCreate
+            crop={crop}
+            farmer={farmerById(crop.farmerId)}
+            meConsumer={meConsumer}
+            createConsumerOrder={createConsumerOrder}
+            lang={lang}
+            onBack={() => setPage("c-product")}
+            onTrack={(id) => { setSelectedOrderId(id); setPage("order-tracking"); }}
+            onGoOrders={() => setPage("c-orders")}
+          />
+        );
+      }
+      case "c-orders":
+        return (
+          <div>
+            <SectionTitle title={t(lang, "my_orders")} desc={t(lang, "my_orders_d")} />
+            <OrdersTable lang={lang} rows={consumerOrders} cropById={cropById} farmerById={farmerById} showFarmer onTrack={(id) => { setSelectedOrderId(id); setPage("order-tracking"); }} onPay={(id) => { setSelectedOrderId(id); setPage("payment"); }} />
+          </div>
+        );
+      case "c-notifications":
+        return <NotificationsPage lang={lang} list={notifications.filter((n) => n.role === "consumer")} onReadAll={() => setNotifications((prev) => prev.map((n) => (n.role === "consumer" ? { ...n, read: true } : n)))} />;
+      case "c-profile":
+        return <ProfilePage lang={lang} name={meConsumer.name} sub={`${meConsumer.location} · ${meConsumer.phone}`} roleTitle={t(lang, "role_consumer")} extra={[["Orders placed", consumerOrders.length], ["Total spent", fmt(consumerOrders.reduce((s, o) => s + o.total, 0))], ["Vegetables bought", consumerOrders.reduce((s, o) => s + o.qty, 0) + " kg"]]} />;
+
       /* ===== TRANSPORTER ===== */
       case "t-dashboard": {
         const earnings = transporterOrders.filter((o) => o.status === "PAID").reduce((s, o) => s + o.transportCost, 0);
@@ -1717,7 +1933,7 @@ export default function App() {
               <StatCard label={t(lang, "stat_total_earnings")} value={fmt(earnings)} icon={Wallet} tint={C.marigoldLight} />
             </div>
             <SectionTitle title={t(lang, "available_requests")} right={<Button variant="outline" onClick={() => setPage("t-deliveries")}>{t(lang, "btn_view_all")}</Button>} />
-            <DeliveryRequestsList lang={lang} rows={availableRequests.slice(0, 3)} cropById={cropById} farmerById={farmerById} restaurantById={restaurantById} onAccept={(id) => advanceOrder(id, "TRANSPORTER_ASSIGNED", meTransporter.id)} />
+            <DeliveryRequestsList lang={lang} rows={availableRequests.slice(0, 3)} cropById={cropById} farmerById={farmerById} restaurantById={restaurantById} consumerById={consumerById} onAccept={(id) => advanceOrder(id, "TRANSPORTER_ASSIGNED", meTransporter.id)} />
           </div>
         );
       }
@@ -1730,7 +1946,7 @@ export default function App() {
               lang={lang}
             />
             <SectionTitle title={t(lang, "available_requests")} desc={t(lang, "available_requests_d")} />
-            <DeliveryRequestsList lang={lang} rows={availableRequests} cropById={cropById} farmerById={farmerById} restaurantById={restaurantById} onAccept={(id) => advanceOrder(id, "TRANSPORTER_ASSIGNED", meTransporter.id)} />
+            <DeliveryRequestsList lang={lang} rows={availableRequests} cropById={cropById} farmerById={farmerById} restaurantById={restaurantById} consumerById={consumerById} onAccept={(id) => advanceOrder(id, "TRANSPORTER_ASSIGNED", meTransporter.id)} />
             <SectionTitle title={t(lang, "my_deliveries")} desc={t(lang, "my_deliveries_d")} />
             <div className="grid sm:grid-cols-2 gap-4">
               {transporterOrders.map((o) => {
@@ -1765,6 +1981,7 @@ export default function App() {
             cropById={cropById}
             farmerById={farmerById}
             restaurantById={restaurantById}
+            consumerById={consumerById}
             onOpenLedger={(id) => setLedgerOrderId(id)}
             liveLocations={liveLocations}
           />
@@ -1782,9 +1999,10 @@ export default function App() {
         return (
           <div>
             <SectionTitle eyebrow={t(lang, "a_dash_eyebrow")} title={t(lang, "a_dash_title")} desc={t(lang, "a_dash_desc")} />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
               <StatCard label={t(lang, "stat_total_farmers")} value={FARMERS.length} icon={Sprout} />
               <StatCard label={t(lang, "stat_total_restaurants")} value={RESTAURANTS.length} icon={UtensilsCrossed} tint={C.marigoldLight} />
+              <StatCard label={t(lang, "stat_total_consumers")} value={CONSUMERS.length} icon={ShoppingBasket} tint={C.plumLight} />
               <StatCard label={t(lang, "stat_total_transporters")} value={TRANSPORTERS.length} icon={Truck} tint={C.skyLight} />
               <StatCard label={t(lang, "stat_active_orders2")} value={orders.filter((o) => o.status !== "PAID").length} icon={ClipboardList} />
             </div>
@@ -1841,6 +2059,7 @@ export default function App() {
             cropById={cropById}
             farmerById={farmerById}
             restaurantById={restaurantById}
+            consumerById={consumerById}
             onOpenLedger={(id) => setLedgerOrderId(id)}
             liveLocations={liveLocations}
           />
@@ -1903,7 +2122,7 @@ export default function App() {
         <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-8 py-4 bg-white border-b" style={{ borderColor: C.line }}>
           <div className="flex items-center gap-3">
             <button className="lg:hidden p-1.5" onClick={() => setMobileNavOpen(true)}><Menu size={20} /></button>
-            <p className="text-sm ff-body" style={{ color: C.slate }}>{t(lang, "signed_in_as")} <span className="font-bold" style={{ color: C.forest }}>{meta.title === "Farmer" ? meFarmer.name : meta.title === "Restaurant" ? meRestaurant.name : meta.title === "Transporter" ? meTransporter.name : "FarmConnect Admin"}</span></p>
+            <p className="text-sm ff-body" style={{ color: C.slate }}>{t(lang, "signed_in_as")} <span className="font-bold" style={{ color: C.forest }}>{meta.title === "Farmer" ? meFarmer.name : meta.title === "Restaurant" ? meRestaurant.name : meta.title === "Consumer" ? meConsumer.name : meta.title === "Transporter" ? meTransporter.name : "FarmConnect Admin"}</span></p>
             {!isOnline && (
               <span className="hidden sm:inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold" style={{ backgroundColor: "#FFF3CD", color: "#8A6200" }}>
                 <WifiOff size={12} /> {t(lang, "offline_label")}
@@ -1951,6 +2170,7 @@ export default function App() {
           cropById={cropById}
           farmerById={farmerById}
           restaurantById={restaurantById}
+          consumerById={consumerById}
           transporterById={transporterById}
           onClose={() => setQrScannerOpen(false)}
           onOpenLedger={(id) => { setLedgerOrderId(id); }}
@@ -1972,7 +2192,7 @@ export default function App() {
             order={o}
             crop={cropById(o.cropId)}
             farmer={farmerById(o.farmerId)}
-            restaurant={restaurantById(o.restaurantId)}
+            restaurant={buyerOfOrder(o)}
             transporter={o.transporterId ? transporterById(o.transporterId) : null}
             onClose={() => setLedgerOrderId(null)}
           />
@@ -2150,7 +2370,7 @@ const SUFFIX_TRIGGERS = {
   verification: ["verif", "सत्यापन", "ధృవీకరణ"],
   analytics: ["analytic", "विश्लेषण", "అనలిటిక్స్"],
 };
-const ROLE_PREFIX = { farmer: "f", restaurant: "r", transporter: "t", admin: "a" };
+const ROLE_PREFIX = { farmer: "f", restaurant: "r", consumer: "c", transporter: "t", admin: "a" };
 
 const ASSISTANT_KEYWORDS = {
   en: { accept: /\baccept\b/, pickup: /\bpick(?:ed)?\s*up\b/, transit: /\btransit\b/, deliver: /\bdeliver(?:ed)?\b/, verify: /\bverify\b/, setPrice: /\b(mandi|price)\b/, help: /\bhelp\b|what can you do/, greet: /\b(hi|hello|hey)\b/ },
@@ -2164,6 +2384,7 @@ const ASSISTANT_STRINGS = {
     greeting: "Hi! I'm your FarmConnect assistant. I can open pages for you, and for farmers I can list a crop just from what you say. Type \"help\" to see examples.",
     help_farmer: "Try: \"open my produce\" · \"show mandi prices\" · \"list 50 kg tomato grade A at 30 rupees per kg organic\"",
     help_restaurant: "Try: \"open marketplace\" · \"search tomato\" · \"show my orders\"",
+    help_consumer: "Try: \"open vegetable market\" · \"search tomato\" · \"show my orders\"",
     help_transporter: "Try: \"show deliveries\" · \"accept FC1007\" · \"mark FC1005 delivered\"",
     help_admin: "Try: \"open verification\" · \"verify tomato\" · \"set mandi price tomato to 22\"",
     fallback: "I didn't quite catch that as a command. Type \"help\" for examples of what I can do.",
@@ -2180,6 +2401,7 @@ const ASSISTANT_STRINGS = {
     greeting: "नमस्ते! मैं आपका फार्मकनेक्ट सहायक हूँ। मैं आपके लिए पेज खोल सकता हूँ, और किसानों के लिए बस बोलकर फ़सल सूचीबद्ध कर सकता हूँ। उदाहरण देखने के लिए \"मदद\" टाइप करें।",
     help_farmer: "आज़माएँ: \"मेरी उपज खोलें\" · \"मंडी भाव दिखाएँ\" · \"50 किलो टमाटर ग्रेड ए 30 रुपये प्रति किलो जैविक सूचीबद्ध करें\"",
     help_restaurant: "आज़माएँ: \"मार्केटप्लेस खोलें\" · \"टमाटर खोजें\" · \"मेरे ऑर्डर दिखाएँ\"",
+    help_consumer: "आज़माएँ: \"सब्ज़ी मंडी खोलें\" · \"टमाटर खोजें\" · \"मेरे ऑर्डर दिखाएँ\"",
     help_transporter: "आज़माएँ: \"डिलीवरी दिखाएँ\" · \"FC1007 स्वीकार करें\" · \"FC1005 डिलीवर हुआ चिह्नित करें\"",
     help_admin: "आज़माएँ: \"सत्यापन खोलें\" · \"टमाटर सत्यापित करें\" · \"टमाटर मंडी भाव 22 सेट करें\"",
     fallback: "मुझे यह कमांड समझ नहीं आया। उदाहरण देखने के लिए \"मदद\" टाइप करें।",
@@ -2196,6 +2418,7 @@ const ASSISTANT_STRINGS = {
     greeting: "నమస్తే! నేను మీ ఫార్మ్‌కనెక్ట్ సహాయకుడిని. నేను మీ కోసం పేజీలను తెరవగలను, రైతుల కోసం మీరు చెప్పినదాని నుండి పంటను జాబితా చేయగలను. ఉదాహరణల కోసం \"సహాయం\" అని టైప్ చేయండి.",
     help_farmer: "ప్రయత్నించండి: \"నా పంట తెరవండి\" · \"మండి ధరలు చూపించు\" · \"50 కిలోల టమాటా గ్రేడ్ ఏ కిలోకు 30 రూపాయలు సేంద్రియ జాబితా చేయండి\"",
     help_restaurant: "ప్రయత్నించండి: \"మార్కెట్‌ప్లేస్ తెరవండి\" · \"టమాటా వెతకండి\" · \"నా ఆర్డర్లు చూపించు\"",
+    help_consumer: "ప్రయత్నించండి: \"కూరగాయల మార్కెట్ తెరవండి\" · \"టమాటా వెతకండి\" · \"నా ఆర్డర్లు చూపించు\"",
     help_transporter: "ప్రయత్నించండి: \"డెలివరీలు చూపించు\" · \"FC1007 అంగీకరించండి\" · \"FC1005 డెలివరీ అయినట్లు గుర్తించండి\"",
     help_admin: "ప్రయత్నించండి: \"ధృవీకరణ తెరవండి\" · \"టమాటా ధృవీకరించండి\" · \"టమాటా మండి ధర 22కి సెట్ చేయండి\"",
     fallback: "ఆ కమాండ్ నాకు అర్థం కాలేదు. ఉదాహరణల కోసం \"సహాయం\" అని టైప్ చేయండి.",
@@ -2290,15 +2513,15 @@ function handleAssistantMessage(text, ctx) {
     if (kw.setPrice.test(lower) && !crop) return at(lang, "mandi_notfound");
   }
 
-  // ---- Restaurant: search the marketplace ----
-  if (role === "restaurant") {
+  // ---- Restaurant / Consumer: search the marketplace ----
+  if (role === "restaurant" || role === "consumer") {
     const searchMatch = lower.match(/search\s+(?:for\s+)?(.+)/) || lower.match(/(.+?)\s+(?:खोजें|వెతకండి)/);
     if (searchMatch) {
       const term = (searchMatch[1] || searchMatch[2] || "").trim();
       if (term) {
         setAssistantSearchQuery(term);
         bumpAssistantSearchNonce();
-        setPage("r-marketplace");
+        setPage(role === "consumer" ? "c-marketplace" : "r-marketplace");
         return `${at(lang, "searching_for")} "${term}"`;
       }
     }
@@ -2464,7 +2687,7 @@ function AddCropForm({ onCancel, onSubmit, lang }) {
    local state right after setting it, e.g. the "Order Placed!" and
    "Payment Successful" screens never appearing. Fixed by hoisting.)
    ============================================================ */
-function ProductDetail({ crop, farmer, onBack, onOrder, lang = "en" }) {
+function ProductDetail({ crop, farmer, onBack, onOrder, lang = "en", savingLabelKey = "est_restaurant_saving" }) {
   const traditionalPrice = Math.round(crop.price * 1.75);
   const saving = traditionalPrice - Math.round(crop.price * 1.4);
   return (
@@ -2499,7 +2722,7 @@ function ProductDetail({ crop, farmer, onBack, onOrder, lang = "en" }) {
               <span style={{ color: C.slate }}>{t(lang, "farmconnect_incl")}</span><span className="ff-mono font-bold" style={{ color: C.forestMid }}>{fmt(Math.round(crop.price * 1.4))}/kg</span>
             </div>
             <div className="flex items-center justify-between text-sm pt-2">
-              <span className="font-semibold" style={{ color: C.forest }}>{t(lang, "est_restaurant_saving")}</span><span className="ff-mono font-bold" style={{ color: C.marigoldDark }}>{fmt(saving)}/kg</span>
+              <span className="font-semibold" style={{ color: C.forest }}>{t(lang, savingLabelKey)}</span><span className="ff-mono font-bold" style={{ color: C.marigoldDark }}>{fmt(saving)}/kg</span>
             </div>
           </div>
 
@@ -2594,6 +2817,115 @@ function OrderCreate({ crop, farmer, meRestaurant, createOrder, onBack, onTrack,
           <div className="flex justify-between text-sm py-2 border-b" style={{ borderColor: C.line }}><span style={{ color: C.slate }}>{t(lang, "label_platform_fee")}</span><span className="ff-mono font-semibold">{fmt(platformFee)}</span></div>
           <div className="flex justify-between text-base pt-3"><span className="font-bold" style={{ color: C.forest }}>{t(lang, "label_total")}</span><span className="ff-mono font-bold text-lg" style={{ color: C.marigoldDark }}>{fmt(total)}</span></div>
           <Button variant="marigold" className="w-full mt-4" icon={CheckCircle2} onClick={() => { const id = createOrder(crop, { quantity: qty, deliveryLocation: loc, deliveryDate: date, deliveryTime: time }); setConfirmedId(id); }}>{t(lang, "btn_confirm_order")}</Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Consumer (home-buyer) order form: like the restaurant flow, but the quantity
+   requirement is sized for households — anywhere from 1 kg up to 100 kg per
+   order (capped by farm availability) — with doorstep-delivery pricing and a
+   free-delivery nudge instead of truck-freight estimates. */
+function ConsumerOrderCreate({ crop, farmer, meConsumer, createConsumerOrder, onBack, onTrack, onGoOrders, lang = "en" }) {
+  const maxQty = Math.max(1, Math.min(100, crop.available));
+  const [qty, setQty] = useState(Math.min(5, maxQty));
+  const [loc, setLoc] = useState(meConsumer.location);
+  const [date, setDate] = useState(() => new Date(Date.now() + 24 * 3600 * 1000).toISOString().slice(0, 10));
+  const [time, setTime] = useState("7:00 AM");
+  const produceCost = qty * crop.price;
+  const deliveryFee = consumerDeliveryFee(qty, farmer.distanceKm, produceCost);
+  const platformFee = consumerPlatformFee(produceCost);
+  const total = produceCost + deliveryFee + platformFee;
+  const retailPerKg = Math.round(crop.price * 1.75);
+  const saving = retailPerKg * qty - total;
+  const [confirmedId, setConfirmedId] = useState(null);
+  const clampQty = (v) => Math.min(maxQty, Math.max(1, Math.round(Number(v) || 1)));
+
+  if (confirmedId) {
+    return (
+      <div className="max-w-lg mx-auto text-center py-16">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: C.leafLight }}>
+          <CheckCircle2 size={32} style={{ color: C.forestMid }} />
+        </div>
+        <h2 className="ff-display font-bold text-2xl" style={{ color: C.forest }}>{t(lang, "order_placed_title")}</h2>
+        <p className="mt-1" style={{ color: C.slate }}>{t(lang, "order_placed_desc")} <span className="ff-mono font-bold">{confirmedId}</span> {t(lang, "order_placed_desc2")}</p>
+        <div className="flex justify-center gap-3 mt-6">
+          <Button variant="outline" onClick={() => onTrack(confirmedId)}>{t(lang, "btn_track_order")}</Button>
+          <Button variant="primary" onClick={onGoOrders}>{t(lang, "btn_go_to_orders")}</Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <button onClick={onBack} className="flex items-center gap-1 text-sm font-semibold mb-4" style={{ color: C.forestMid }}><ChevronLeft size={16} />{t(lang, "back_label")}</button>
+      <SectionTitle title={`${t(lang, "order_title_prefix")} ${crop.name} — ${farmer.name}`} desc={t(lang, "c_order_form_desc")} />
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="rounded-2xl bg-white border p-5" style={{ borderColor: C.line }}>
+          <Field label={`${t(lang, "c_qty_field")} — max ${maxQty} kg`}>
+            <input type="number" className={inputCls} style={inputStyle} value={qty} min={1} max={maxQty} onChange={(e) => setQty(clampQty(e.target.value))} />
+            <input
+              type="range"
+              min={1}
+              max={maxQty}
+              value={qty}
+              onChange={(e) => setQty(clampQty(e.target.value))}
+              className="w-full mt-2"
+              style={{ accentColor: C.plum }}
+            />
+            <p className="text-2xs font-bold uppercase tracking-wide mt-2" style={{ color: C.plum }}>{t(lang, "c_quick_qty_label")}</p>
+            <div className="flex gap-2 mt-1 flex-wrap">
+              {[1, 2, 5, 10, 25, 50, 100].filter((v) => v <= maxQty).map((val) => {
+                const active = val === qty;
+                return (
+                  <button
+                    key={val}
+                    type="button"
+                    onClick={() => setQty(val)}
+                    className="px-2.5 py-1 rounded-full text-xs font-semibold border"
+                    style={{ borderColor: active ? C.plum : C.line, backgroundColor: active ? C.plumLight : "white", color: active ? C.plum : C.slate }}
+                  >
+                    {val}kg
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-xs mt-2" style={{ color: C.slate }}>
+              {t(lang, "partial_order_hint")} · <span className="font-semibold" style={{ color: C.forest }}>{crop.available - qty}kg</span> {t(lang, "remaining_after_order")}
+            </p>
+            <p className="text-2xs mt-1" style={{ color: C.slate }}>{t(lang, "c_qty_max_note")}</p>
+          </Field>
+          <Field label={t(lang, "field_delivery_location")}>
+            <input className={inputCls} style={inputStyle} value={loc} onChange={(e) => setLoc(e.target.value)} />
+          </Field>
+          <Field label={t(lang, "field_delivery_date")}>
+            <input type="date" className={inputCls} style={inputStyle} value={date} onChange={(e) => setDate(e.target.value)} />
+          </Field>
+          <Field label={t(lang, "field_delivery_time")}>
+            <select className={inputCls} style={inputStyle} value={time} onChange={(e) => setTime(e.target.value)}>
+              {["7:00 AM", "10:00 AM", "1:00 PM", "5:00 PM"].map((slot) => <option key={slot}>{slot}</option>)}
+            </select>
+          </Field>
+        </div>
+        <div className="rounded-2xl bg-white border p-5 h-fit" style={{ borderColor: C.line }}>
+          <p className="text-xs font-bold uppercase tracking-wide mb-3" style={{ color: C.plum }}>{t(lang, "cost_breakdown")}</p>
+          <div className="flex justify-between text-sm py-2 border-b" style={{ borderColor: C.line }}><span style={{ color: C.slate }}>{qty} kg {crop.name} @ {fmt(crop.price)}/kg</span><span className="ff-mono font-semibold">{fmt(produceCost)}</span></div>
+          <div className="flex justify-between text-sm py-2 border-b" style={{ borderColor: C.line }}>
+            <span style={{ color: C.slate }}>{t(lang, "c_delivery_fee")}{deliveryFee === 0 && <span className="ml-1 text-2xs font-bold px-1.5 py-0.5 rounded-full" style={{ backgroundColor: C.leafLight, color: C.forestMid }}>FREE</span>}</span>
+            <span className="ff-mono font-semibold">{deliveryFee === 0 ? "₹0" : fmt(deliveryFee)}</span>
+          </div>
+          <div className="flex justify-between text-sm py-2 border-b" style={{ borderColor: C.line }}><span style={{ color: C.slate }}>{t(lang, "label_platform_fee")}</span><span className="ff-mono font-semibold">{fmt(platformFee)}</span></div>
+          <div className="flex justify-between text-base pt-3"><span className="font-bold" style={{ color: C.forest }}>{t(lang, "label_total")}</span><span className="ff-mono font-bold text-lg" style={{ color: C.plum }}>{fmt(total)}</span></div>
+          <div className="rounded-xl p-3 mt-3" style={{ backgroundColor: C.leafLight }}>
+            <div className="flex justify-between text-sm"><span style={{ color: C.slate }}>{t(lang, "c_retail_price")}</span><span className="ff-mono font-semibold" style={{ color: C.danger }}>{fmt(retailPerKg)}/kg</span></div>
+            {saving > 0 && <div className="flex justify-between text-sm mt-1"><span className="font-semibold" style={{ color: C.forestMid }}>{t(lang, "c_you_save")}</span><span className="ff-mono font-bold" style={{ color: C.forestMid }}>{fmt(saving)}</span></div>}
+          </div>
+          {deliveryFee > 0 && (
+            <p className="text-xs mt-3 flex items-center gap-1.5" style={{ color: C.plum }}><BadgePercent size={14} />{t(lang, "c_free_delivery_note")}</p>
+          )}
+          <Button variant="marigold" className="w-full mt-4" icon={CheckCircle2} onClick={() => { const id = createConsumerOrder(crop, { quantity: qty, deliveryLocation: loc, deliveryDate: date, deliveryTime: time }); setConfirmedId(id); }}>{t(lang, "btn_confirm_order")}</Button>
         </div>
       </div>
     </div>
@@ -2796,7 +3128,7 @@ function GoOnlineToggle({ transporterId, updateTransporterLocation, clearTranspo
   );
 }
 
-function OrderTrackingPage({ orders, selectedOrderId, cropById, farmerById, restaurantById, onOpenLedger, liveLocations = {}, lang = "en" }) {
+function OrderTrackingPage({ orders, selectedOrderId, cropById, farmerById, restaurantById, consumerById, onOpenLedger, liveLocations = {}, lang = "en" }) {
   const [pickId, setPickId] = useState(selectedOrderId || orders[0]?.id);
   useEffect(() => {
     if (selectedOrderId) setPickId(selectedOrderId);
@@ -2805,7 +3137,8 @@ function OrderTrackingPage({ orders, selectedOrderId, cropById, farmerById, rest
   if (!order) return <EmptyState text={t(lang, "no_orders_yet")} />;
   const crop = cropById(order.cropId);
   const farmer = farmerById(order.farmerId);
-  const restaurant = restaurantById(order.restaurantId);
+  const isConsumerOrder = order.buyerType === "consumer";
+  const restaurant = isConsumerOrder ? (consumerById ? consumerById(order.consumerId) : null) : restaurantById(order.restaurantId);
   const idx = STATUS_STEPS.indexOf(order.status);
   return (
     <div className="max-w-3xl mx-auto">
@@ -2824,7 +3157,7 @@ function OrderTrackingPage({ orders, selectedOrderId, cropById, farmerById, rest
         </div>
         <div className="grid sm:grid-cols-2 gap-3 mb-5">
           <div className="rounded-xl p-3" style={{ backgroundColor: C.cream }}><p className="text-xs" style={{ color: C.slate }}>{t(lang, "order_col_farmer")}</p><p className="font-semibold text-sm">{farmer?.name} · {farmer?.location}</p></div>
-          <div className="rounded-xl p-3" style={{ backgroundColor: C.cream }}><p className="text-xs" style={{ color: C.slate }}>{t(lang, "order_col_restaurant")}</p><p className="font-semibold text-sm">{restaurant?.name} · {restaurant?.location}</p></div>
+          <div className="rounded-xl p-3" style={{ backgroundColor: C.cream }}><p className="text-xs" style={{ color: C.slate }}>{isConsumerOrder ? t(lang, "c_deliver_to") : t(lang, "order_col_restaurant")}</p><p className="font-semibold text-sm">{restaurant?.name} · {restaurant?.location}</p></div>
         </div>
         <Stepper steps={STATUS_STEPS.map((s) => t(lang, "status_" + s))} activeIndex={idx} orientation="horizontal" />
         <div className="mt-4 rounded-xl p-3 flex items-center gap-2" style={{ backgroundColor: C.leafLight }}>
@@ -2838,7 +3171,7 @@ function OrderTrackingPage({ orders, selectedOrderId, cropById, farmerById, rest
   );
 }
 
-function Marketplace({ crops, farmerById, onView, lang = "en", initialQuery = "" }) {
+function Marketplace({ crops, farmerById, onView, lang = "en", initialQuery = "", eyebrow = "", title = "", desc = "" }) {
   const [q, setQ] = useState(initialQuery);
   const [grade, setGrade] = useState("All");
   const [sort, setSort] = useState("price-asc");
@@ -2853,7 +3186,7 @@ function Marketplace({ crops, farmerById, onView, lang = "en", initialQuery = ""
   }, [crops, q, grade, sort]);
   return (
     <div>
-      <SectionTitle eyebrow={t(lang, "marketplace_eyebrow")} title={t(lang, "marketplace_title")} desc={t(lang, "marketplace_desc")} />
+      <SectionTitle eyebrow={eyebrow || t(lang, "marketplace_eyebrow")} title={title || t(lang, "marketplace_title")} desc={desc || t(lang, "marketplace_desc")} />
       <div className="flex flex-wrap gap-3 mb-6">
         <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl border bg-white flex-1 min-w-220" style={{ borderColor: C.line }}>
           <Search size={16} style={{ color: C.slate }} />
@@ -2878,7 +3211,7 @@ function Marketplace({ crops, farmerById, onView, lang = "en", initialQuery = ""
   );
 }
 
-function OrdersTable({ rows, cropById, farmerById, restaurantById, onTrack, onPay, showFarmer, lang = "en" }) {
+function OrdersTable({ rows, cropById, farmerById, restaurantById = null, onTrack, onPay, showFarmer, lang = "en" }) {
   if (rows.length === 0) return <EmptyState text={t(lang, "no_orders_yet")} />;
   return (
     <div className="rounded-2xl bg-white border overflow-x-auto scrollbar-thin" style={{ borderColor: C.line }}>
@@ -2922,12 +3255,13 @@ function OrdersTable({ rows, cropById, farmerById, restaurantById, onTrack, onPa
   );
 }
 
-function DeliveryRequestsList({ rows, cropById, farmerById, restaurantById, onAccept, lang = "en" }) {
+function DeliveryRequestsList({ rows, cropById, farmerById, restaurantById, consumerById, onAccept, lang = "en" }) {
   if (rows.length === 0) return <EmptyState text={t(lang, "no_delivery_requests")} />;
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {rows.map((o) => {
-        const crop = cropById(o.cropId), farmer = farmerById(o.farmerId), restaurant = restaurantById(o.restaurantId);
+        const crop = cropById(o.cropId), farmer = farmerById(o.farmerId);
+        const restaurant = o.buyerType === "consumer" ? (consumerById ? consumerById(o.consumerId) : null) : restaurantById(o.restaurantId);
         return (
           <div key={o.id} className="rounded-2xl bg-white border p-4" style={{ borderColor: C.line }}>
             <div className="flex justify-between items-center mb-3">
@@ -3894,7 +4228,7 @@ function WhatsAppListingModal({ lang = "en", addCrop, onClose }) {
   );
 }
 
-function QRScanModal({ orders, cropById, farmerById, restaurantById, transporterById, onClose, onOpenLedger, lang = "en" }) {
+function QRScanModal({ orders, cropById, farmerById, restaurantById, consumerById, transporterById, onClose, onOpenLedger, lang = "en" }) {
   const [scanning, setScanning] = useState(false);
   const [resultOrderId, setResultOrderId] = useState(null);
 
@@ -3910,7 +4244,7 @@ function QRScanModal({ orders, cropById, farmerById, restaurantById, transporter
   const order = resultOrderId ? orders.find((o) => o.id === resultOrderId) : null;
   const crop = order ? cropById(order.cropId) : null;
   const farmer = order ? farmerById(order.farmerId) : null;
-  const restaurant = order ? restaurantById(order.restaurantId) : null;
+  const restaurant = order ? (order.buyerType === "consumer" ? (consumerById ? consumerById(order.consumerId) : null) : restaurantById(order.restaurantId)) : null;
   const transporter = order && order.transporterId ? transporterById(order.transporterId) : null;
   const idx = order ? STATUS_STEPS.indexOf(order.status) : -1;
 
@@ -3986,8 +4320,10 @@ function QRScanModal({ orders, cropById, farmerById, restaurantById, transporter
                   </div>
                 )}
                 <div className="rounded-xl p-3 flex items-center gap-2" style={{ backgroundColor: C.cream }}>
-                  <UtensilsCrossed size={16} style={{ color: C.marigoldDark }} />
-                  <p className="text-sm ff-body"><span className="font-bold" style={{ color: C.forest }}>{restaurant?.name}</span> · {restaurant?.location}</p>
+                  {order?.buyerType === "consumer"
+                    ? <Home size={16} style={{ color: C.plum }} />
+                    : <UtensilsCrossed size={16} style={{ color: C.marigoldDark }} />}
+                  <p className="text-sm ff-body"><span className="font-bold" style={{ color: C.forest }}>{restaurant?.name}</span> · {restaurant?.location}{order?.buyerType === "consumer" ? ` · ${t(lang, "role_consumer")}` : ""}</p>
                 </div>
               </div>
               <p className="text-xs font-bold uppercase tracking-wide mb-2" style={{ color: C.marigoldDark }}>{t(lang, "qr_journey")}</p>
