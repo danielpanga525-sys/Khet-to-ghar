@@ -9,9 +9,10 @@ Built with **React + TypeScript + Vite + Tailwind CSS**, using in-memory/local-s
 ## ✨ What's inside
 
 - **Landing page** with supply-chain flow, benefits, and how-it-works
-- **Role select / demo login** for Farmer, Restaurant, Transporter, Admin — no signup
+- **Role select / demo login** for Farmer, Restaurant, Consumer, Transporter, Admin — no signup
 - **Farmer dashboard**: list produce, quality grading, orders, notifications
 - **Restaurant dashboard**: marketplace with search/filters, product detail with price comparison, order creation with live cost breakdown, Smart Matching, Demand Forecast, transparent Price Breakdown page
+- **Consumer (farm-to-home) dashboard**: the same direct-from-farm marketplace sized for households — order any quantity from **1 kg to 100 kg**, quick quantity chips, doorstep-delivery fee with **free delivery above ₹499**, savings-vs-retail comparison, order tracking and simulated payment
 - **Transporter dashboard**: available delivery requests, accept/reject, pickup → in-transit → delivered progress
 - **Admin dashboard**: crop/farmer/restaurant/transporter verification, live analytics (recharts)
 - **Order tracking** with a step-by-step timeline
