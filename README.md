@@ -17,7 +17,7 @@ Built with **React + TypeScript + Vite + Tailwind CSS**, using in-memory/local-s
 - **Admin dashboard**: crop/farmer/restaurant/transporter verification, live analytics (recharts)
 - **Order tracking** with a step-by-step timeline
 - **Simulated payment** flow with farmer/transport/platform-fee breakdown
-- **Judge Demo Mode** — a guided, click-through walkthrough of the entire farm-to-payment journey, built for a 3–5 minute live demo
+- **Judge Demo Mode** — a guided, click-through **20-step** walkthrough of the entire farm-to-payment journey (farmer → admin → restaurant → transporter → settlement → consumer), built for a 3–5 minute live demo
 - Demo data persists in `localStorage` across refreshes (with a "Reset demo data" button)
 
 All statistics not derived from live session data (price-chain comparisons, monthly transaction charts, wastage-reduction %) are clearly illustrative/demo figures, as required for an honest SIH presentation.
@@ -100,21 +100,39 @@ The prototype is intentionally kept in a single `App.tsx` for easy review during
 
 ## 🎬 Judge Demo Mode
 
-Click **"Judge Demo Mode"** in the top bar from any screen. It steps through, in order:
+Click **"Judge Demo Mode"** in the top bar from any screen. It walks through the whole
+platform in **20 steps**, in four acts:
 
-1. Farmer lists 500kg Grade A tomatoes
-2. Admin verifies the listing
-3. Restaurant discovers it in the marketplace
-4. Restaurant views full details + price comparison
-5. Restaurant places an order (300kg) — cost auto-calculated
-6. Transporter accepts the auto-generated delivery request
-7. Pickup confirmed
-8. In transit
-9. Delivered
-10. Payment simulated (farmer / transport / platform split)
-11. Admin analytics update live
+**Act 1 — the farmer's side (supply)**
+1. Farmer opens the dashboard
+2. Farmer checks mandi prices before pricing
+3. Farmer lists 500kg Grade A tomatoes at ₹30/kg
+4. Quality is auto-graded
+5. Admin verifies the listing
 
-Use "Next" / "Back" to control pacing during a live pitch.
+**Act 2 — the restaurant's side (B2B demand)**
+6. Restaurant opens the dashboard
+7. Restaurant declares future demand (forecast)
+8. Smart matching pairs the restaurant with verified nearby farmers
+9. Restaurant discovers the crop in the marketplace
+10. Restaurant views full details + price comparison
+11. Transparent price breakdown (intermediaries removed)
+12. Restaurant places an order (300kg) — cost auto-calculated
+
+**Act 3 — logistics**
+13. Transporter accepts the auto-generated delivery request
+14. Pickup confirmed
+15. In transit — live tracking
+16. Delivered
+17. Full timestamped tracking timeline
+
+**Act 4 — settlement, consumers, close**
+18. Payment simulated (farmer / transport / platform split)
+19. Consumer buys 5kg farm-to-home off the same supply chain
+20. Admin analytics update live
+
+Use "Next" / "Back" to control pacing during a live pitch. The badge in the corner shows
+`Judge Demo · Step n/20` so you always know where you are.
 
 ---
 

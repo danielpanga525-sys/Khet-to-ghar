@@ -1364,6 +1364,7 @@ export default function App() {
   const [demoStep, setDemoStep] = useState(-1); // -1 = inactive
   const [demoCropId, setDemoCropId] = useState(null);
   const [demoOrderId, setDemoOrderId] = useState(null);
+  const [demoConsumerOrderId, setDemoConsumerOrderId] = useState(null);
 
   // Consumer-facing features (item 3 & 4): QR scan simulator + blockchain provenance ledger
   const [qrScannerOpen, setQrScannerOpen] = useState(false);
@@ -1569,19 +1570,52 @@ export default function App() {
 
   /* ---------- judge demo mode ---------- */
   const demoSteps = [
+    /* ===== ACT 1 — the farmer's side (supply) ===== */
+    {
+      title: "Farmer opens the dashboard",
+      desc: "Ramesh Reddy sees his listed produce, incoming orders and earnings in one place.",
+      run: () => { setRole("farmer"); setScreen("app"); setPage("f-dashboard"); },
+    },
+    {
+      title: "Farmer checks mandi prices",
+      desc: "Today's mandi rates are shown first, so the farmer prices against the real market — not a middleman's offer.",
+      run: () => { setRole("farmer"); setPage("f-mandi"); },
+    },
     {
       title: "Farmer lists new produce",
       desc: "Ramesh Reddy lists 500 kg of Grade A Tomatoes at ₹30/kg.",
       run: () => {
-        setRole("farmer"); setScreen("app"); setPage("f-produce");
+        setRole("farmer"); setPage("f-produce");
         const id = addCrop({ name: "Tomato (Demo Batch)", icon: "🍅", quantity: 500, price: 30, grade: "A", method: "Organic" });
         setDemoCropId(id);
       },
     },
     {
+      title: "Quality is auto-graded",
+      desc: "The platform scores grade and quality automatically — no manual paperwork at the farm gate.",
+      run: () => { setRole("farmer"); setPage("f-quality"); },
+    },
+    {
       title: "Admin verifies quality",
-      desc: "Admin reviews the auto-graded quality score and verifies the listing.",
+      desc: "Admin reviews the auto-graded quality score and verifies the listing. The farmer is notified.",
       run: () => { setRole("admin"); setPage("a-verification"); if (demoCropId) verifyCrop(demoCropId); },
+    },
+
+    /* ===== ACT 2 — the restaurant's side (B2B demand) ===== */
+    {
+      title: "Restaurant opens the dashboard",
+      desc: "ABC Restaurant sees spend, active orders and savings at a glance.",
+      run: () => { setRole("restaurant"); setPage("r-dashboard"); },
+    },
+    {
+      title: "Restaurant plans demand",
+      desc: "Future requirements are declared up front so farmers can plan production instead of guessing.",
+      run: () => { setRole("restaurant"); setPage("r-forecast"); },
+    },
+    {
+      title: "Smart matching",
+      desc: "The platform matches the restaurant to verified nearby farmers automatically.",
+      run: () => { setRole("restaurant"); setPage("r-matching"); },
     },
     {
       title: "Restaurant discovers the crop",
@@ -1594,9 +1628,15 @@ export default function App() {
       run: () => { if (demoCropId) setSelectedCropId(demoCropId); setPage("r-product"); },
     },
     {
+      title: "Transparent price breakdown",
+      desc: "The full farm-to-kitchen cost chain is shown openly — intermediaries removed, no hidden margin.",
+      run: () => { setRole("restaurant"); setPage("r-pricebreakdown"); },
+    },
+    {
       title: "Restaurant places an order",
       desc: "Order for 300 kg is created — cost breakdown is calculated automatically.",
       run: () => {
+        setRole("restaurant");
         const crop = crops.find((c) => c.id === demoCropId) || crops.find((c) => c.name.includes("Demo Batch"));
         if (crop) {
           const id = createOrder(crop, { quantity: 300, deliveryLocation: meRestaurant.location, deliveryDate: "2026-09-02", deliveryTime: "9:00 AM" });
@@ -1605,10 +1645,19 @@ export default function App() {
         setPage("r-orders");
       },
     },
+
+    /* ===== ACT 3 — logistics ===== */
     {
       title: "Transporter accepts delivery",
       desc: "A transport request was auto-created — Rajesh Logistics accepts it.",
-      run: () => { setRole("transporter"); setPage("t-deliveries"); if (demoOrderId) advanceOrder(demoOrderId, "TRANSPORTER_ASSIGNED", meTransporter.id); },
+      run: () => {
+        setRole("transporter"); setPage("t-deliveries");
+        // createOrder() may already have auto-assigned a nearby transporter and
+        // recorded it on the timeline; only assign when the order is still PLACED,
+        // otherwise the tracking timeline shows a duplicate "Transporter Assigned".
+        const o = orders.find((x) => x.id === demoOrderId);
+        if (demoOrderId && (!o || o.status === "PLACED")) advanceOrder(demoOrderId, "TRANSPORTER_ASSIGNED", meTransporter.id);
+      },
     },
     {
       title: "Produce picked up",
@@ -1616,8 +1665,8 @@ export default function App() {
       run: () => { if (demoOrderId) advanceOrder(demoOrderId, "PICKED_UP"); },
     },
     {
-      title: "In transit",
-      desc: "Shipment is on its way to the restaurant.",
+      title: "In transit — live tracking",
+      desc: "Shipment is on its way, with live location tracking visible to both buyer and transporter.",
       run: () => { if (demoOrderId) advanceOrder(demoOrderId, "IN_TRANSIT"); setPage("t-tracking"); },
     },
     {
@@ -1626,13 +1675,38 @@ export default function App() {
       run: () => { if (demoOrderId) advanceOrder(demoOrderId, "DELIVERED"); },
     },
     {
+      title: "Full tracking timeline",
+      desc: "The buyer sees every timestamped step — placed, assigned, picked up, in transit, delivered.",
+      run: () => { setRole("restaurant"); setSelectedOrderId(demoOrderId); setPage("order-tracking"); },
+    },
+
+    /* ===== ACT 4 — settlement, consumers, close ===== */
+    {
       title: "Payment simulated",
       desc: "Farmer payment, transport payment and platform revenue are settled.",
       run: () => { setRole("restaurant"); setSelectedOrderId(demoOrderId); setPage("payment"); if (demoOrderId) advanceOrder(demoOrderId, "PAID"); },
     },
     {
+      title: "Consumer buys farm-to-home",
+      desc: "A household orders 5 kg direct from the same farm — the same supply chain, sized 1–100 kg.",
+      run: () => {
+        setRole("consumer");
+        const crop = crops.find((c) => c.id === demoCropId) || crops.find((c) => c.name.includes("Demo Batch"));
+        if (crop) {
+          const id = createConsumerOrder(crop, {
+            quantity: 5,
+            deliveryLocation: meConsumer.location,
+            deliveryDate: new Date(Date.now() + 24 * 3600 * 1000).toISOString().slice(0, 10),
+            deliveryTime: "7:00 AM",
+          });
+          setDemoConsumerOrderId(id);
+        }
+        setPage("c-orders");
+      },
+    },
+    {
       title: "Dashboards update",
-      desc: "Admin analytics reflect the completed transaction instantly.",
+      desc: "Admin analytics reflect the completed transactions instantly.",
       run: () => { setRole("admin"); setPage("a-analytics"); },
     },
   ];
